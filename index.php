@@ -7,17 +7,21 @@ else{
     $monUren = $_POST['maandagUren'];
     $monMin = $_POST['maandagMin'];
     $dinUren = $_POST['dinsdagUren'];
-    $dinmin = $_POST['dinsdagMin'];
+    $dinMin = $_POST['dinsdagMin'];
     $woenUren= $_POST['woensdagUren'];
     $woenMin= $_POST['woensdagMin'];
     $donUren = $_POST['donderdagUren'];
     $donMin= $_POST['donderdagMin'];
     $vrijUren = $_POST['vrijdagUren'];
     $vrijMin = $_POST['vrijdagMin'];
-    //$posted = new werkweek($kjsdkf,)
     $monMin = $monMin + ($monUren * 60);
-    $totalmon = $monUren + $monMin / 10;
+    $dinMin = $dinMin + ($dinUren * 60);
+    $woenMin = $woenMin + ($woenUren * 60);
+    $donMin = $donMin + ($donUren * 60);
+    $vrijMin = $vrijMin + ($vrijUren * 60);
+    $werkdagen = new werkweek($monMin, $dinMin, $woenMin, $donMin, $vrijMin);
 }
+
 
 class werkweek
 {
@@ -35,13 +39,39 @@ class werkweek
         $this->donderdag = $donderdag;
         $this->vrijdag = $vrijdag;
     }
-    public function getWerkWeekTable()
-    {
-        return "";
-    }
     public function getTotalUren()
     {
-        return "";
+        $totaalUren = $this->maandag + $this->dindsdag + $this->woensdag + $this->donderdag + $this->vrijdag;
+        $totaalUren = $totaalUren / 60;
+        return "$totaalUren uur gewerkt";
+    }
+    public function getCompletePicture()
+    {
+        $max = max($this->maandag, $this->dindsdag, $this->woensdag, $this->donderdag, $this->vrijdag);
+        switch ($max) {
+            case $this->maandag:
+                    $maxdag = "maandag";
+                break;
+            case $this->dindsdag:
+                    $maxdag = "dinsdag";
+                break;
+            case $this->woensdag:
+                    $maxdag = "woensdag";
+                break;
+            case $this->donoderdag:
+                    $maxdag = "donderdag";
+                break;
+            case $this->vrijdag:
+                    $maxdag = "vrijdag";
+                break;
+            default:
+                # code...
+                break;
+        }
+        $max = $max / 60;
+        $totaalUren = $this->maandag + $this->dindsdag + $this->woensdag + $this->donderdag + $this->vrijdag;
+        $totaalUren = $totaalUren / 60;
+        return "totaal gewerkt: $totaalUren en een dag max van $maxdag";
     }
     
 }
@@ -129,8 +159,18 @@ class werkweek
                 </div>
             </div>
             <div class="col-sm-4">
+                <?php
+                if (!isset($_POST['posted'])){
+
+                }else {
+                    echo $werkdagen->getCompletePicture();
+                }
+                
+                ?>
             </div>
         </div>
+        <?php
+        ?>
     </div>
 
 </body>
