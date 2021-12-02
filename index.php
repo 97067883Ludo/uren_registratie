@@ -71,7 +71,7 @@ class werkweek
         $max = $max / 60;
         $totaalUren = $this->maandag + $this->dindsdag + $this->woensdag + $this->donderdag + $this->vrijdag;
         $totaalUren = $totaalUren / 60;
-        return "totaal gewerkt: $totaalUren en een dag max van $maxdag";
+        return "totaal gewerkt: $totaalUren uur en een dag max van $maxdag";
     }
     
 }
